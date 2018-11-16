@@ -1,5 +1,6 @@
 <?php
 include_once "authenticatorbase.php";
+include_once "model_factory.php";
 
 class AuthenticatorLogin extends AuthenticatorBase
 {
@@ -13,10 +14,10 @@ class AuthenticatorLogin extends AuthenticatorBase
 		$ret_val = false;
 		if(true == $this->data_loaded)
 		{
-			if(helper::is_alphanumeric($usuario) && helper::is_alphanumeric($password))
+			if(helper::is_alphanumeric($this->user) && helper::is_alphanumeric($this->password))
 			{
 				$ret_val = true;
-				$data_validated = true;
+				$this->data_validated = true;
 			}
 		}
 		return $ret_val;

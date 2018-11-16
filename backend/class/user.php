@@ -1,4 +1,5 @@
 <?php
+include_once "db.php";
 class User
 {
   private $usuario;
@@ -14,11 +15,21 @@ class User
     public function initialize($user)
     {
       $ret_val = false;
-      $stmt = DB::GetInstance()->prepare("SELECT * FROM Usuario where Usuario = :username;");
-      $stmt->bindValue(':username', $name, PDO::PARAM_STR);
-      $stmt->execute();
-      $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
-      if($stmt->rowCount() == 1)
+      $result = DB::GetInstance()->connection->select("Usuario", [
+        "[>]RolUsuario" => ["RolId" => "Id"]
+      ], [
+        "Usuario.Usuario(Usuario)",
+        "Usuario.Nombre(Nombre)",
+        "Usuario.Email(Email)",
+        "Usuario.FechaCreado(FechaCreado)",
+        "Usuario.Password(Password)",
+        "Usuario.Activado(Activado)",
+        "RolUsuario.Descripcion(RolDescripcion)",
+        "RolUsuario.Administrador(RolAdministrador)"
+      ], [
+        "Usuario.Usuario" => $user
+      ]);
+      if(count($result) == 1)
       {
         $this->usuario = $result[0]["Usuario"];
         $this->nombre = $result[0]["Nombre"];

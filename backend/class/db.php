@@ -1,10 +1,17 @@
 <?php
-final class DB
+include_once '../vendor/autoload.php';
+
+// Using Medoo namespace
+use Medoo\Medoo;
+
+class DB
 {
-  final $dsn = "";
-  final $user = "";
-  final $pass = "";
-  final $options = "";
+  private $database = "ingsoft";
+  private $host = "127.0.0.1";
+  private $user = "root";
+  private $pass = "123ingsoft";
+  private $options = "";
+  public $connection;
 
     public static function GetInstance()
     {
@@ -17,6 +24,15 @@ final class DB
 
     private function __construct()
     {
-      $pdo = new PDO($dsn, $user, $pass, $options);
+
+      $this->$connection = new Medoo([
+      	// required
+      	'database_type' => 'mysql',
+      	'database_name' => $this->database,
+      	'server' => $this->host,
+      	'username' => $this->user,
+      	'password' => $this->pass
+      ]);
     }
+
 }

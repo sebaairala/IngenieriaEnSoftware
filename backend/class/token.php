@@ -1,4 +1,5 @@
 <?php
+include_once "db.php";
 class Token extends User
 {
   private $token;
@@ -8,14 +9,18 @@ class Token extends User
     public function initialize($token)
     {
       $ret_val = false;
-      $stmt = DB::GetInstance()->prepare("SELECT * FROM Usuario where Usuario = :username; FALTA");
-      $stmt->bindValue(':username', $name, PDO::PARAM_STR);
-      $stmt->execute();
-      $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
-      if($stmt->rowCount() == 1)
+      $result = DB::GetInstance()->connection->select("TokenUsuario", [
+        "[>]Usuario" => ["Id" => "IdUsuario"]
+      ], [
+        "Usuario.Usuario(Usuario)"
+      ], [
+        "TokenUsuario.Token" => $token
+      ]);
+
+      if(1 == count($result))
       {
         $this->user = $result[0]["Usuario"];
-        $this->token = $result[0]["Token"];
+        $this->token = $token;
         if(parent::initialize($this->user))
         {
           $this->initialized = true;

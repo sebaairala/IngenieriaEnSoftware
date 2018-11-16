@@ -1,0 +1,87 @@
+.barra-menu{left:0; right: 0; width: 100%; padding-top:10px; position: fixed;  text-align: center; z-index:100;  background-color: #007bff; }
+.row-menu1{display: inline-block; width: 25%;  color:#fff; }
+.row-menu1 p { color:#fff;  }
+.row-menu1 a:hover{
+text-decoration: none;
+}
+.txt-menu{color: #fff; cursor: pointer; display: inline-block; margin-top:5px;}
+.row-menu2{display: inline-block; vertical-align: middle; width: 40%; }
+.row-menu2 input{ height: 100%; width: 100%; border: none;   font-size: 12px; border-radius: 2px; padding: 8px;}
+.row-menu3{display: inline-block;  width: 25%;  text-align: right;}
+.row-menu3 p{display: inline-block;   }
+.row-menu4{display: inline-block; vertical-align: middle;}
+.icon-menu{color:#fff; font-size: 30px; cursor:pointer;}
+
+
+/*====================================
+=            CSS OF SLIDE            =
+====================================*/
+
+.carousel-cell {
+  width: 100%; /* full width */
+  height: 550px; /* height of carousel */
+}
+.carousel1{ background: url(../img/slide1.jpg) no-repeat center center fixed;  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover; }
+.carousel2{background: url(../img/slide5.jpg) no-repeat center center fixed;  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover; }
+.carousel3{background: url(../img/slide4.jpg) no-repeat center center fixed;  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover; }
+
+
+/*=====  End of CSS OF SLIDE  ======*/
+
+/*===============================
+=            MODAL LOGIN            =
+===============================*/
+
+.loginModal{z-index: 1500;}
+.lin-register{display: block; color: rgb(0, 123, 255);}
+
+/*=====  End of MODAL LOGIN  ======*/
+
+/*==================================
+=            MENU SLIDE            =
+==================================*/
+
+.menu-slide-txt{
+	display: none;
+	color:#fff;
+	padding-left: 20px;
+	padding-top: 10px;
+	padding-bottom: 10px;
+	cursor: pointer;
+}
+
+.menu-slide-txt:hover{
+	text-decoration: underline;
+}
+/*=====  End of MENU SLIDE  ======*/
+
+
+@media only screen and (max-width: 690px){
+
+.row-menu3{
+	display: none;
+}
+.menu-slide-txt{display: block;}
+}
+
+@media only screen and (max-width: 590px){
+.txt-menu{
+	display: none;
+}
+.row-menu1{width: 10px;}
+.row-menu2{width: 70%;}	
+.barra-menu{padding-bottom: 8px;}
+.icon-menu{margin-top: 5px;}
+}
+
+
+

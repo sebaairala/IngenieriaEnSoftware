@@ -1,0 +1,14 @@
+.containerSearch{
+	padding-top: 20px;
+}
+.infoSearch{
+	background-image: url("../img/slide2.jpg");
+}
+.txtSearch{
+	padding-top: 100px;
+	padding-bottom: 40px;
+	font-weight: bold;
+	color:#fff;
+	font-size: 20px;
+	padding-left: 50px;
+}

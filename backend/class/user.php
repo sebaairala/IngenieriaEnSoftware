@@ -1,5 +1,4 @@
 <?php
-include_once "db.php";
 class User
 {
   private $usuario;
@@ -7,88 +6,86 @@ class User
   private $email;
   private $password;
   private $activado;
-  private $initialized = false;
   private $rol;
   private $administrador;
   private $fecha_creacion;
-
-    public function initialize($user)
-    {
-      $ret_val = false;
-      $result = DB::GetInstance()->connection->select("Usuario", [
-        "[>]RolUsuario" => ["RolId" => "Id"]
-      ], [
-        "Usuario.Usuario(Usuario)",
-        "Usuario.Nombre(Nombre)",
-        "Usuario.Email(Email)",
-        "Usuario.FechaCreado(FechaCreado)",
-        "Usuario.Password(Password)",
-        "Usuario.Activado(Activado)",
-        "RolUsuario.Descripcion(RolDescripcion)",
-        "RolUsuario.Administrador(RolAdministrador)"
-      ], [
-        "Usuario.Usuario" => $user
-      ]);
-      if(count($result) == 1)
-      {
-        $this->usuario = $result[0]["Usuario"];
-        $this->nombre = $result[0]["Nombre"];
-        $this->email = $result[0]["Email"];
-        $this->fecha_creacion = $result[0]["FechaCreado"];
-        $this->password = $result[0]["Password"];
-        $this->activado = $result[0]["Activado"];
-        $this->rol = $result[0]["RolDescripcion"];
-        $this->administrador = $result[0]["RolAdministrador"];
-        $this->initialized = true;
-        $ret_val = true;
-      }
-      return $ret_val;
-    }
+  private $id;
 
     function __construct()
     {
 
     }
-
-    function isInitialized()
+    function GetId()
     {
-      return $initialized;
+      return $this->id;
     }
     function GetUser()
     {
-      return $usuario;
+      return $this->usuario;
     }
     function GetName()
     {
-      return $nombre;
+      return $this->nombre;
     }
     function GetEmail()
     {
-      return $email;
+      return $this->email;
     }
-
     function GetPassword()
     {
-      return $password;
+      return $this->password;
     }
-
     function IsActive()
     {
-      return $activado;
+      return $this->activado;
     }
-
     function GetRolDescription()
     {
-      return $rol;
+      return $this->rol;
     }
     function IsAdmin()
     {
-      return $administrador;
+      return $this->administrador;
     }
-
     function GetCreateDate()
     {
-      return $fecha_creacion;
+      return $this->fecha_creacion;
     }
 
+    public function SetId($id)
+    {
+      $this->id = $id;
+    }
+    public function SetUser($usuario)
+    {
+      $this->usuario = $usuario;
+    }
+    function SetName($nombre)
+    {
+      $this->nombre = $nombre;
+    }
+    function SetEmail($email)
+    {
+      $this->email = $email;
+    }
+    function SetPassword($password)
+    {
+      $this->password = $password;
+    }
+    function SetIsActive($activado)
+    {
+      $this->activado = $activado;
+    }
+    function SetRolDescription($rol)
+    {
+      $this->rol = $rol;
+    }
+    function SetIsAdmin($administrador)
+    {
+      $this->administrador = $administrador;
+    }
+    function SetCreateDate($fecha_creacion)
+    {
+      $this->fecha_creacion = $fecha_creacion;
+    }
 }

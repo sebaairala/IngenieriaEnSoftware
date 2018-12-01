@@ -1,9 +1,11 @@
 <?php
 include_once "authenticatorbase.php";
 include_once "helper.php";
+include_once "userdao.php";
+include_once "tokendao.php";
 class AuthenticatorToken extends AuthenticatorBase
 {
-	private $user = "";
+	private $token = "";
 	private $data_loaded = false;
 	private $data_validated = false;
 	public function ValidateInputData()
@@ -11,10 +13,10 @@ class AuthenticatorToken extends AuthenticatorBase
 		$ret_val = false;
 		if(true == $this->data_loaded)
 		{
-			if(true == helper::is_alphanumeric($this->user))
+			if(true == helper::is_alphanumeric($this->token))
 			{
 				$ret_val = true;
-				$data_validated = true;
+				$this->data_validated = true;
 			}
 		}
 		return $ret_val;
@@ -24,10 +26,10 @@ class AuthenticatorToken extends AuthenticatorBase
 	{
 		if("token" == $id)
 		{
-			$this->user = $value;
+			$this->token = $value;
 		}
 
-		if("" != $this->user)
+		if("" != $this->token)
 		{
 			$this->data_loaded = true;
 		}
@@ -38,13 +40,13 @@ class AuthenticatorToken extends AuthenticatorBase
 		$ret_val = array( 'status' => false);
 		if($this->data_validated)
 		{
-			$input_password_hash = helper::GetTextHash($this->password);
-			if("" != $input_password_hash)
+			$token_instance = TokenDao::GetIdUserByToken($this->token);
+			if(null != $token_instance)
 			{
-				$token_nstance = ModelFactory::Create("token");
-				if($token_Instance->initialize($this->token))
+				$user = UserDao::GetUserDataById($token_instance->GetIdUser());
+				if(null != $user)
 				{
-					$ret_val = array('token' => $token_Instance->GetToken(), 'user' => $token_Instance->GetUser());
+					$ret_val = array('status' => true, 'token' => $token_instance->GetToken(), 'user' => $user->GetUser());
 				}
 			}
 		}

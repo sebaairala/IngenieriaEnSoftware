@@ -8,15 +8,15 @@ class DB
 {
   private $database = "ingsoft";
   private $host = "127.0.0.1";
-  private $user = "root";
-  private $pass = "123ingsoft";
+  private $user = "ingsoft";
+  private $pass = "ingsoft123";
   private $options = "";
   public $connection;
 
     public static function GetInstance()
     {
         static $inst = null;
-        if ($inst === null) {
+        if ($inst == null) {
             $inst = new DB();
         }
         return $inst;
@@ -25,7 +25,7 @@ class DB
     private function __construct()
     {
 
-      $this->$connection = new Medoo([
+      $this->connection = new Medoo([
       	// required
       	'database_type' => 'mysql',
       	'database_name' => $this->database,

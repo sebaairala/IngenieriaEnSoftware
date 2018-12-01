@@ -1,6 +1,7 @@
 <?php
 include_once "authenticatorbase.php";
-include_once "model_factory.php";
+include_once "userdao.php";
+include_once "tokendao.php";
 
 class AuthenticatorLogin extends AuthenticatorBase
 {
@@ -48,12 +49,18 @@ class AuthenticatorLogin extends AuthenticatorBase
 			$input_password_hash = helper::GetTextHash($this->password);
 			if("" != $input_password_hash)
 			{
-				$userinstance = ModelFactory::Create("user");
-				if(null != $userinstance && $userinstance->initialize($this->user))
+				$userinstance = UserDao::GetUserData($this->user);
+				if(null != $userinstance)
 				{
 					if($userinstance->GetPassword() == $input_password_hash)
 					{
-						$ret_val = array( 'user' => $token_Instance->GetUser());
+						$token = ModelFactory::Create("token");
+						$token->SetToken(md5(uniqid(rand(), true)));
+						$token->SetIdUser($userinstance->GetId());
+						if(TokenDao::InsertToken($token))
+						{
+							$ret_val = array( 'status' => true, 'token' => $token->GetToken(), 'user' => $userinstance->GetUser(), 'name' => $userinstance->GetName(), 'email' => $userinstance->GetEmail(), 'rol' => $userinstance->GetRolDescription(), 'createdate' => $userinstance->GetCreateDate());
+						}
 					}
 				}
 			}

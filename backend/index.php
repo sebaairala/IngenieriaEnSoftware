@@ -46,14 +46,26 @@ $app->post("/user", function ($request, $response) {
 /*$app->post("/objeto", function ($request, $response) {
     $book_isbn = $request->getParsedBody()['test'];
     return $response->withJson($book_isbn);
+});*/
+
+$app->post("/museum", function ($request, $response) {
+    $userInstance = AuthenticatorFactory::Create("museumcreate");
+  	$userInstance->SetValues("hour", $request->getParsedBody()['hour']);
+    $userInstance->SetValues("name", $request->getParsedBody()['name']);
+    $userInstance->SetValues("address", $request->getParsedBody()['address']);
+    $userInstance->SetValues("token", $request->getParsedBody()['token']);
+
+    $data = array( 'status' => false);
+  	if($userInstance->ValidateInputData())
+    {
+      $data = $userInstance->ValidateData();
+    }
+  	return $response->withJson($data);
 });
-$app->get('/objeto', function (Request $request, Response $response, array $args)
+
+$app->get('/museum', function (Request $request, Response $response, array $args)
 {
-	$user = $args['user'];
-	$password = $args['password'];
-  $loginInstance = AuthenticatorFactory::Create("login");
-	$loginInstance->SetValues("user", $user);
-  $loginInstance->SetValues("password", $password);
+  $loginInstance = AuthenticatorFactory::Create("museum");
   $data = array( 'status' => false);
 	if($loginInstance->ValidateInputData())
   {
@@ -61,6 +73,17 @@ $app->get('/objeto', function (Request $request, Response $response, array $args
   }
 	return $response->withJson($data);
 });
+$app->get('/objeto', function (Request $request, Response $response, array $args)
+{
+  $loginInstance = AuthenticatorFactory::Create("objeto");
+  $data = array( 'status' => false);
+	if($loginInstance->ValidateInputData())
+  {
+    $data = $loginInstance->ValidateData();
+  }
+	return $response->withJson($data);
+});
+/*
 $app->get('/objeto/{id}', function (Request $request, Response $response, array $args)
 {
 	$id = $args['id'];

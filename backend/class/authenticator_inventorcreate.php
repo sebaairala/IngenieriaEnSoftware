@@ -1,14 +1,15 @@
 <?php
 include_once "authenticatorbase.php";
 include_once "helper.php";
-include_once "museumdao.php";
+include_once "inventordao.php";
 include_once "tokendao.php";
-class AuthenticatorMuseumCreate extends AuthenticatorBase
+class AuthenticatorInventorCreate extends AuthenticatorBase
 {
-  private $horario;
-  private $direccion;
+  private $apellido;
   private $nombre;
+  private $direccion;
   private $token;
+
 	private $data_loaded = false;
 	private $data_validated = false;
 	public function ValidateInputData()
@@ -16,7 +17,8 @@ class AuthenticatorMuseumCreate extends AuthenticatorBase
 		$ret_val = false;
 		if(true == $this->data_loaded)
 		{
-			if(true == helper::is_alphanumeric($this->nombre)
+			if(true == helper::is_alphanumeric($this->apellido)
+        && true == helper::is_alphanumeric($this->nombre)
         && true == helper::is_alphanumeric($this->token))
 			{
 				$ret_val = true;
@@ -28,9 +30,9 @@ class AuthenticatorMuseumCreate extends AuthenticatorBase
 
 	public function SetValues($id, $value)
 	{
-		if("hour" == $id)
+		if("lastname" == $id)
 		{
-			$this->horario = $value;
+			$this->apellido = $value;
 		}
     else if("name" == $id)
 		{
@@ -45,7 +47,7 @@ class AuthenticatorMuseumCreate extends AuthenticatorBase
 			$this->token = $value;
 		}
 
-		if("" != $this->horario && "" != $this->nombre && "" != $this->direccion && "" != $this->token)
+		if("" != $this->apellido && "" != $this->nombre && "" != $this->direccion && "" != $this->token)
 		{
 			$this->data_loaded = true;
 		}
@@ -59,15 +61,17 @@ class AuthenticatorMuseumCreate extends AuthenticatorBase
       $token_instance = TokenDao::GetIdUserByToken($this->token);
 			if(null != $token_instance)
 			{
-        $museum = ModelFactory::Create("museum");
-        $museum->SetHour($this->horario);
-        $museum->SetName($this->nombre);
-        $museum->SetAddress($this->direccion);
-        $museum->SetCreateUserID($token_instance->GetIdUser());
+        $inventor = ModelFactory::Create("inventor");
+        $inventor->SetLastName($this->apellido);
+        $inventor->SetName($this->nombre);
+        $inventor->SetAddress($this->direccion);
+        $user = ModelFactory::Create("user");
+        $user->SetId($token_instance->GetIdUser());
+        $inventor->SetCreateUser($user);
 
-        if(null != MuseumDao::InsertMuseum($museum))
+        if(null != InventorDao::InsertInventor($inventor))
         {
-  					$ret_val = array('status' => true, 'museum' => $museum->GetName());
+  					$ret_val = array('status' => true, 'inventor' => $inventor->GetName()." ".$inventor->GetLastName());
         }
       }
 		}

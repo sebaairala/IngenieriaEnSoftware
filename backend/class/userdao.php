@@ -4,6 +4,23 @@ include_once "model_factory.php";
 include_once "user.php";
 class UserDao
 {
+  public static function GetUsers()
+  {
+    $result = DB::GetInstance()->connection->select("Usuario", [
+      "[>]RolUsuario" => ["RolId" => "Id"]
+    ], [
+      "Usuario.Id(Id)",
+      "Usuario.Usuario(Usuario)",
+      "Usuario.Nombre(Nombre)",
+      "Usuario.Email(Email)",
+      "Usuario.FechaCreado(FechaCreado)",
+      "Usuario.Password(Password)",
+      "Usuario.Activado(Activado)",
+      "RolUsuario.Descripcion(RolDescripcion)",
+      "RolUsuario.Administrador(RolAdministrador)"
+    ]);
+    return $result;
+  }
   public static function GetUserData($user)
   {
     $userinstance = null;

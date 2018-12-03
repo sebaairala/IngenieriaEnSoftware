@@ -8,18 +8,13 @@ class MuseumDao
 
   public static function GetMuseums()
   {
-    $museumarray = array();
     $result = DB::GetInstance()->connection->select("Museo", [
+      "Id",
       "Horario",
       "Nombre",
       "Direccion",
       "IdUsuarioCarga"
     ]);
-
-    for($i = 0; $i < count($result); ++$i)
-    {
-      array_push($museumarray, array($result[$i]));
-    }
     return $result;
   }
 

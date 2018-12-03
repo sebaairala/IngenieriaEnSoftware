@@ -16,7 +16,7 @@ $(document).ready(function () {
     }
     if(!hasError)
     {
-      URL = "http://52.15.159.160/login/"+js_user+"/"+js_password;
+      URL = URLBASE+"/login/"+js_user+"/"+js_password;
       jQuery.ajax({
         type: "GET",
         url: URL,
